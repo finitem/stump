@@ -100,7 +100,6 @@ public class Stump {
 	 *
 	 * @param logStatement The statement to be output into the log.
 	 */
-	//ANALYZE: Do we need this? Event basically does the same thing.
 	public static void debug(String logStatement) {
 		if (BuildConfig.DEBUG) {
 			Log.d(sDebugTag, logStatement);
