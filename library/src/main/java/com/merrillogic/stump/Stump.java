@@ -64,6 +64,7 @@ public class Stump {
 	 * @param uiAddSTring
 	 * @param uiPopString
 	 * @param uiJoinerStartString
+	 * @param memoryTrimString
 	 */
 	public static void setWording(String defaultTag,
 	                              String devTag,
@@ -74,7 +75,8 @@ public class Stump {
 	                              String uiString,
 	                              String uiAddSTring,
 	                              String uiPopString,
-	                              String uiJoinerStartString) {
+	                              String uiJoinerStartString,
+								  String memoryTrimString) {
 		sDefaultTag = defaultTag;
 		sDevTag = devTag;
 		sDebugTag = debugTag;
@@ -85,6 +87,7 @@ public class Stump {
 		sUiAddString = uiAddSTring;
 		sUiPopSting = uiPopString;
 		sUiJoinerString = uiJoinerStartString;
+		sMemoryTrimString = memoryTrimString;
 	}
 
 	/**
