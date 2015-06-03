@@ -20,8 +20,8 @@ public class Stump {
 
 	/**
 	 * A StumpListener is notified when various logging happens in the stump class.
-	 * <p>
-	 * <p>
+	 * <p/>
+	 * <p/>
 	 * If a tree has already fallen and someone is listening... Is there even a question?
 	 */
 	public interface StumpListener {
@@ -54,6 +54,7 @@ public class Stump {
 	/**
 	 * Sets the key words to be output to the log at various points. Useful if you code in a
 	 * language other than English or just prefer different phrasing.
+	 *
 	 * @param defaultTag
 	 * @param devTag
 	 * @param debugTag
@@ -64,17 +65,19 @@ public class Stump {
 	 * @param uiAddSTring
 	 * @param uiPopString
 	 * @param uiJoinerStartString
+	 * @param memoryTrimString
 	 */
 	public static void setWording(String defaultTag,
-	                              String devTag,
-	                              String debugTag,
-	                              String oddTag,
-	                              String errorTag,
-	                              String eventTag,
-	                              String uiString,
-	                              String uiAddSTring,
-	                              String uiPopString,
-	                              String uiJoinerStartString) {
+								  String devTag,
+								  String debugTag,
+								  String oddTag,
+								  String errorTag,
+								  String eventTag,
+								  String uiString,
+								  String uiAddSTring,
+								  String uiPopString,
+								  String uiJoinerStartString,
+								  String memoryTrimString) {
 		sDefaultTag = defaultTag;
 		sDevTag = devTag;
 		sDebugTag = debugTag;
@@ -85,6 +88,7 @@ public class Stump {
 		sUiAddString = uiAddSTring;
 		sUiPopSting = uiPopString;
 		sUiJoinerString = uiJoinerStartString;
+		sMemoryTrimString = memoryTrimString;
 	}
 
 	/**
@@ -93,7 +97,7 @@ public class Stump {
 	 * contexts and the like (because it very well may retain one).
 	 *
 	 * @param listener The listener that wants to receive notification about events in the event
-	 *                    stream.
+	 *                 stream.
 	 */
 	public static void setListener(StumpListener listener) {
 		sListenerWeakReference = new WeakReference<>(listener);
@@ -135,7 +139,7 @@ public class Stump {
 	/**
 	 * Clear the ui stack up to and including the given string. You should be very certain that
 	 * the string is in the stack, or else the entire thing will be cleared.
-	 * <p>
+	 * <p/>
 	 * Logs the pop event to the event list.
 	 *
 	 * @param uiEvent The ui tag string to pop up to (inclusive).
@@ -144,7 +148,12 @@ public class Stump {
 		boolean done = false;
 
 		StringBuilder poppedSummaryBuilder = new StringBuilder();
-		poppedSummaryBuilder.append(sUiString).append(" ").append(sUiPopSting).append("(").append(uiEvent).append(") [");
+		poppedSummaryBuilder.append(sUiString)
+				.append(" ")
+				.append(sUiPopSting)
+				.append("(")
+				.append(uiEvent)
+				.append(") [");
 
 		String poppedItem;
 		synchronized (sUiStackLock) {
@@ -228,7 +237,7 @@ public class Stump {
 		Log.e(sErrorTag, errorString);
 		error.printStackTrace();
 		//Is there a way to be more efficient with the stack trace print and stringing?
-		event(errorString +"\n" + Arrays.toString(error.getStackTrace()));
+		event(errorString + "\n" + Arrays.toString(error.getStackTrace()));
 		//ANALYZE: Right now this means we're printing this error to logs THREE times (but only in
 		// debug mode, so maybe it's acceptable?)
 		dump();
