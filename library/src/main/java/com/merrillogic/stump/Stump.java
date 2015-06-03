@@ -171,15 +171,16 @@ public class Stump {
 		debug(uiStack);
 		//Make a local pointer to that object so that it can't be swapped out from under us
 		WeakReference<StumpListener> reference = sListenerWeakReference;
-		if (reference.get() != null) {
-			reference.get().onDump(events, uiStack);
+		StumpListener listener = reference.get();
+		if (listener != null) {
+			listener.onDump(events, uiStack);
 		}
 	}
 
 	private static String getIndentedIteratedString(String title, Iterable<String> items) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(title).append(":\n");
-		for (String event : sEventList) {
+		for (String event : items) {
 			builder.append("\t").append(event).append("\n");
 		}
 		return builder.toString();
