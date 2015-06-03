@@ -179,7 +179,7 @@ public class Stump {
 	private static String getIndentedIteratedString(String title, Iterable<String> items) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(title).append(":\n");
-		for (String event : sEventList) {
+		for (String event : items) {
 			builder.append("\t").append(event).append("\n");
 		}
 		return builder.toString();
