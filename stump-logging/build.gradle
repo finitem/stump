@@ -1,0 +1,97 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+
+buildscript {
+	ext.kotlin_version = '0.12.1230'
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
+}
+
+android {
+	compileSdkVersion 23
+	buildToolsVersion "22.0.1"
+
+	defaultConfig {
+		minSdkVersion 15
+		targetSdkVersion 23
+	}
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
+	sourceSets {
+		main.java.srcDirs += 'src/main/kotlin'
+	}
+
+	lintOptions {
+		abortOnError false
+	}
+}
+dependencies {
+	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+//	compile "com.merrillogic:stump-base:1.2015.8.29"
+}
+
+
+def cal = new GregorianCalendar()
+def versionYear = cal.get(Calendar.YEAR)
+def versionMonth = cal.get(Calendar.MONTH) + 1
+def versionDay = cal.get(Calendar.DAY_OF_MONTH)
+def straightUpBuildNumber = project.hasProperty('ciBuildNum') ? ciBuildNum.toInteger : 1
+
+def calculateVersionCode = { ->
+	return straightUpBuildNumber * 100000000 + versionYear * 10000 + versionMonth * 100 + versionDay
+}
+
+def calculateVersionName = { ->
+	return "${straightUpBuildNumber}.${versionYear}.${versionMonth}.${versionDay}"
+}
+
+def versionNameString = calculateVersionName()
+
+//ACTION: Change android-testing to the artifact name
+def publishedArtifactId = 'stump-logging'
+
+publishing {
+	publications {
+		//ACTION: Change to the artifact name
+		androidapp(MavenPublication) {
+			groupId 'com.merrillogic'
+			artifactId publishedArtifactId
+			version versionNameString
+
+			//TODO: Source and Javadoc
+//            artifact javadocJar
+//            artifact sourceJar
+			artifact "$buildDir/outputs/aar/stump-logging.aar"
+		}
+	}
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+	user = properties.getProperty("bintray.user")
+	key = properties.getProperty("bintray.apikey")
+	//ACTION: Change to match the name in publications
+	publications = ['androidapp']
+	publish = false
+	pkg {
+		repo = 'maven'
+		name = publishedArtifactId
+		version {
+			name = versionNameString
+			vcsTag = "v" + versionNameString
+		}
+	}
+}
