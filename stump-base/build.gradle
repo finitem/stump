@@ -57,7 +57,7 @@ bintray {
         name = publishedArtifactId
         version {
             name = versionName
-            vcsTag = "v" + versionName
+            vcsTag = publishedArtifactId + "-v" + versionName
         }
     }
 }
