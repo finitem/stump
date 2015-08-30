@@ -1,14 +1,27 @@
 package com.merrillogic.stump.sample;
 
 import android.app.Application;
+import android.util.Log;
 
-import com.merrillogic.stump.Stump;
+import com.merrillogic.stump.StumpObserver;
+import com.merrillogic.stump.StumpPackage;
 
-public class SampleApplication extends Application implements Stump.StumpListener {
+import org.jetbrains.annotations.NotNull;
+
+
+public class SampleApplication extends Application {
+
+	StumpObserver a = new StumpObserver() {
+		@Override
+		public void onEvent(@NotNull String event, @NotNull Object... args) {
+			Log.w("!!!", event);
+		}
+	};
 
 	@Override
 	public void onCreate(){
 		super.onCreate();
+		StumpPackage.addObserver(a);
 		//If you wanted to pass on info to crash tracking, or analytics, or both!
 		//Fabric.with(new Crashlytics());
 		//Stump.setListener(this);
@@ -17,16 +30,15 @@ public class SampleApplication extends Application implements Stump.StumpListene
 	@Override
 	public void onTrimMemory(int trimLevel) {
 		super.onTrimMemory(trimLevel);
-		Stump.trimMemory(trimLevel);
 	}
 
-	@Override
+//	@Override
 	public void onEvent(String event) {
 		//Could do this, for example.
 		//Crashlytics.log(event);
 	}
 
-	@Override
+//	@Override
 	public void onDump(String events, String uiStack) {
 		//Crashlytics.log(events);
 		//Crashlytics.log(uiStack);
