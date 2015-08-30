@@ -7,7 +7,7 @@ def cal = new GregorianCalendar()
 def versionYear = cal.get(Calendar.YEAR)
 def versionMonth = cal.get(Calendar.MONTH) + 1
 def versionDay = cal.get(Calendar.DAY_OF_MONTH)
-def straightUpBuildNumber = project.hasProperty('ciBuildNum') ? ciBuildNum.toInteger : 2
+def straightUpBuildNumber = project.hasProperty('ciBuildNum') ? ciBuildNum.toInteger : 1
 
 def calculateVersionName = { ->
     return "${straightUpBuildNumber}.${versionYear}.${versionMonth}.${versionDay}"
