@@ -1,23 +1,22 @@
 package com.merrillogic.stump
 
-import java.util.LinkedList
-import java.util.Stack
 import java.util.concurrent.CopyOnWriteArrayList
 
 /*
 	TODO:
-		Add annotations from support library - assuming that doesn't  make the minSdk something bad
-		Add rx capabilities, again assuming we don't muck up the minSdk
-		Use timestamps for events? Or at least, relative times.
+		Add annotations from support library
+		Add rx capabilities?
  */
 
 public interface StumpObserver {
 	public fun onEvent(event: String,
-	                   vararg args: Any)
+	                   //Default to 0 length Array of ints if they haven't provided anything
+	                   vararg args: Any = Array(0, {false}))
 }
 
 //CopyOnWriteArray is probably more efficient than alternatives given the rarity of adding new
 // event listeners (pretty much just on startup), and the frequency of traversing (lots)
+// Also it can't be changed from underneath our iterators, so that's nice
 private val sObservers = CopyOnWriteArrayList<StumpObserver>()
 
 fun addObserver(observer: StumpObserver) {
@@ -29,9 +28,8 @@ fun removeObserver(observer: StumpObserver) :Boolean{
 }
 
 fun event(event: String, extras: Any) {
-	//Make a local pointer to that object so that it can't be swapped out from under us
-	val currentObservers: List<StumpObserver> = sObservers
-	for (observer in currentObservers) {
+	//Yeah, we're creating an iterator here - but I like that more than copying and iterating that?
+	for (observer in sObservers) {
 		observer.onEvent(event, extras)
 	}
 }
