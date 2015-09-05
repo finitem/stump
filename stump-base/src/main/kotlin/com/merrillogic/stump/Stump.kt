@@ -27,7 +27,7 @@ fun removeObserver(observer: StumpObserver) :Boolean{
 	return sObservers.remove(observer)
 }
 
-fun event(event: String, extras: Any) {
+fun event(event: String, extras: Any = Array(0, {0})) {
 	//Yeah, we're creating an iterator here - but I like that more than copying and iterating that?
 	for (observer in sObservers) {
 		observer.onEvent(event, extras)
