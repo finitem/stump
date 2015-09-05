@@ -2,12 +2,6 @@ package com.merrillogic.stump
 
 import java.util.concurrent.CopyOnWriteArrayList
 
-/*
-	TODO:
-		Add annotations from support library
-		Add rx capabilities?
- */
-
 public interface StumpObserver {
 	public fun onEvent(event: String,
 	                   //Default to 0 length Array of ints if they haven't provided anything
