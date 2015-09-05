@@ -1,7 +1,12 @@
-package com.merrillogic.stump
+package com.merrillogic.stump.logging
 
+import com.merrillogic.stump.StumpObserver
+import com.merrillogic.stump.event
 import timber.log.Timber
-import java.util.*
+import java.util.ArrayList
+import java.util.Arrays
+import java.util.LinkedList
+import java.util.Stack
 
 /**
  * A function to log things when you just want to see what the heck is going on. Logs at the
@@ -42,7 +47,7 @@ public fun broken(error: Throwable) {
 		Use timestamps for events? Or at least, relative times.
  */
 
-data class Event(val eventName:String, val params: Array<out Any>)
+private data class Event(val eventName:String, val params: Array<out Any>)
 
 public object LoggingRoot : StumpObserver {
 
