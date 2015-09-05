@@ -38,7 +38,7 @@ android {
 }
 dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-//	compile "com.merrillogic:stump-base:1.2015.8.29"
+	compile "com.merrillogic:stump-base:1.2015.9.5"
 	compile "com.jakewharton.timber:timber:3.1.0"
 }
 

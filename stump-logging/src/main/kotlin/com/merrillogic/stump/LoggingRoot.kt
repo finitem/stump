@@ -1,7 +1,12 @@
-package com.merrillogic.stump
+package com.merrillogic.stump.logging
 
+import com.merrillogic.stump.StumpObserver
+import com.merrillogic.stump.event
 import timber.log.Timber
-import java.util.*
+import java.util.ArrayList
+import java.util.Arrays
+import java.util.LinkedList
+import java.util.Stack
 
 /**
  * A function to log things when you just want to see what the heck is going on. Logs at the
@@ -11,7 +16,7 @@ import java.util.*
 
  * @param logStatement The statement to be output into the log.
  */
-public fun Timber.dev(logStatement: String) {
+public fun dev(logStatement: String) {
 	Timber.w("!!!",
 	         logStatement)
 }
@@ -22,12 +27,12 @@ public fun Timber.dev(logStatement: String) {
 
  * @param logStatement The description of the odd thing happening, to be output into the log.
  */
-public fun Timber.odd(logStatement: String) {
+public fun odd(logStatement: String) {
 	Timber.w("???",
 	         logStatement)
 }
 
-public fun Timber.broken(error: Throwable) {
+public fun broken(error: Throwable) {
 	val errorString = error.toString()
 	Timber.e("***",
 	         error)
@@ -42,7 +47,7 @@ public fun Timber.broken(error: Throwable) {
 		Use timestamps for events? Or at least, relative times.
  */
 
-data class Event(val eventName:String, val params: Array<out Any>)
+private data class Event(val eventName:String, val params: Array<out Any>)
 
 public object LoggingRoot : StumpObserver {
 
@@ -167,6 +172,14 @@ public object LoggingRoot : StumpObserver {
 			listener?.onDump(events,
 			                 uiStack)
 		}
+	}
+
+	public fun addListener(newListener: Listener) {
+		sListeners.add(newListener)
+	}
+
+	public fun removeListener(oldListener: Listener) {
+		sListeners.remove(oldListener)
 	}
 
 	private fun getIndentedIteratedString(title: String,

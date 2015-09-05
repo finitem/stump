@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.merrillogic.stump.StumpPackage;
+import com.merrillogic.stump.logging.LoggingPackage;
+import com.merrillogic.stump.logging.LoggingRoot;
 
 public class LaunchActivity extends AppCompatActivity{
 
@@ -21,13 +23,12 @@ public class LaunchActivity extends AppCompatActivity{
 			@Override
 			public void onClick(View v) {
 				StumpPackage.event("User obeyed.", 0);
-//				Stump.broken(new RuntimeException("arg"));
+				LoggingPackage.broken(new RuntimeException("arg"));
 			}
 		});
 
-		//If we really just want to know that the onCreate() method succeeds, but don't care about
-		// having it in our event stream, debug is for us!
-//		Stump.debug("LaunchActivity.onCreate() made it through setup.");
+		//If we really just want to make sure we know it if something weird happens, odd is for us
+		LoggingPackage.odd("LaunchActivity.onCreate() made it through setup.");
 	}
 
 	@Override
@@ -35,12 +36,13 @@ public class LaunchActivity extends AppCompatActivity{
 		super.onPause();
 		//Nothing is actually broken, but this is the sort of thing I might have while developing
 		// something or having a specific problem.
-//		Stump.dev("Oh shoot we're pausing, does that mean we're broken the way I think we are?");
+		LoggingPackage.dev(
+				"Oh shoot we're pausing, does that mean we're broken the way I think we are?");
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-//		Stump.uiPopTo("LaunchActivity");
+		LoggingRoot.INSTANCE$.uiPopTo("LaunchActivity");
 	}
 }
