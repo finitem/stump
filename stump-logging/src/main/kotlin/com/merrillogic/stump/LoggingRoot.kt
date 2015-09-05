@@ -11,7 +11,7 @@ import java.util.*
 
  * @param logStatement The statement to be output into the log.
  */
-public fun Timber.dev(logStatement: String) {
+public fun dev(logStatement: String) {
 	Timber.w("!!!",
 	         logStatement)
 }
@@ -22,12 +22,12 @@ public fun Timber.dev(logStatement: String) {
 
  * @param logStatement The description of the odd thing happening, to be output into the log.
  */
-public fun Timber.odd(logStatement: String) {
+public fun odd(logStatement: String) {
 	Timber.w("???",
 	         logStatement)
 }
 
-public fun Timber.broken(error: Throwable) {
+public fun broken(error: Throwable) {
 	val errorString = error.toString()
 	Timber.e("***",
 	         error)
