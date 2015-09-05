@@ -73,7 +73,7 @@ publishing {
 			//TODO: Source and Javadoc
 //            artifact javadocJar
 //            artifact sourceJar
-			artifact "$buildDir/outputs/aar/stump-logging.aar"
+			artifact "$buildDir/outputs/aar/stump-logging-release.aar"
 		}
 	}
 }
