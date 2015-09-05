@@ -169,6 +169,14 @@ public object LoggingRoot : StumpObserver {
 		}
 	}
 
+	public fun addListener(newListener: Listener) {
+		sListeners.add(newListener)
+	}
+
+	public fun removeListener(oldListener: Listener) {
+		sListeners.remove(oldListener)
+	}
+
 	private fun getIndentedIteratedString(title: String,
 	                                      items: Iterable<Any>): String {
 		val builder = StringBuilder()
